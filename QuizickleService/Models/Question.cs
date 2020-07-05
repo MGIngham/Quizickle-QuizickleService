@@ -16,6 +16,7 @@ namespace QuizickleService.Models
 
         [Required]
         public int QuizId { get; set; }
+        public Quiz Quiz { get; set; }
 
         [Required]
         public int RoundNumber { get; set; }

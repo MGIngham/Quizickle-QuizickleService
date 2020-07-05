@@ -32,6 +32,7 @@ namespace QuizickleService.Controllers
         }
 
         // GET: api/Questions/GetQuestionsByQuizId/{quizId}
+        //https://github.com/MGIngham/Quizickle.git
         [Route("[action]/{quizId}")]
         [HttpGet]
         public IEnumerable<Question> GetQuestionsByQuizId(int quizId)

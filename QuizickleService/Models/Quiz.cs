@@ -12,5 +12,7 @@ namespace QuizickleService.Models
         public int QuizId { get; set; }
 
         public string QuizName { get; set; }
+
+        public List<Quiz> Quizzes { get; set; }
     }
 }

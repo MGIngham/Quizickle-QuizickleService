@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 
 namespace QuizickleService.Models
 {
-    public class Player
+    public class Score
     {
         [Key]
+        public int ScoreId { get; set; }
+
+        [Required]
         public int PlayerId { get; set; }
 
         [Required]
-        public string PlayerName { get; set; }
+        public int QuizId { get; set; }
 
-        public string QuizColourCode { get; set; }
-
+        [Required]
+        public int PlayerScore { get; set; }
     }
 }

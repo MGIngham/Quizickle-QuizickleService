@@ -17,5 +17,7 @@ namespace QuizickleService.Models
         public DbSet<QuizickleService.Models.Question> Questions { get; set; }
 
         public DbSet<QuizickleService.Models.Quiz> Quiz { get; set; }
+
+        public DbSet<QuizickleService.Models.Score> Score { get; set; }
     }
 }
