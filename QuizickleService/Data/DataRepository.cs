@@ -1,17 +1,15 @@
-﻿using QuizickleService.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuizickleService.Data
 {
-
     public class DataRepository<T> : IDataRepository<T> where T : class
     {
-        private readonly QuizickleServiceContext _context;
+        private readonly QuizickleContext _context;
 
-        public DataRepository(QuizickleServiceContext context)
+        public DataRepository(QuizickleContext context)
         {
             _context = context;
         }

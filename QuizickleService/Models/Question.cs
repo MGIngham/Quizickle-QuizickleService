@@ -9,36 +9,22 @@ namespace QuizickleService.Models
     public class Question
     {
         [Key]
-        public int QuestionId { get; set; }
-
-        [Required]
-        public int QuestionNumber { get; set; }
-
+        public int Id { get; set; }
         [Required]
         public int QuizId { get; set; }
         public Quiz Quiz { get; set; }
-
         [Required]
-        public int RoundNumber { get; set; }
-
+        public int QuestionNumber { get; set; }
         [Required]
-        public string QuestionString { get; set; }
-
+        public int QuestionType { get; set; }
         [Required]
-        public int QuestionTypeId { get; set; }
-
+        public string QuestionText { get; set; }
         [Required]
-        public int CorrectAnswerIndex { get; set; }
-
-        public string AnswerString { get; set; }
-
+        public bool IsTrueFalse { get; set; }
+        public string AnswerText { get; set; }
         public string OptionOne { get; set; }
-
         public string OptionTwo { get; set; }
-
         public string OptionThree { get; set; }
-
-        public string OptionFour { get; set; }
 
 
     }

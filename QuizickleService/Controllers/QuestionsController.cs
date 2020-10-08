@@ -10,15 +10,14 @@ using QuizickleService.Models;
 
 namespace QuizickleService.Controllers
 {
-    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class QuestionsController : ControllerBase
     {
-        private readonly QuizickleServiceContext _context;
+        private readonly QuizickleContext _context;
         private readonly IDataRepository<Question> _repo;
 
-        public QuestionsController(QuizickleServiceContext context, IDataRepository<Question> repo)
+        public QuestionsController(QuizickleContext context, IDataRepository<Question> repo)
         {
             _context = context;
             _repo = repo;
@@ -26,52 +25,32 @@ namespace QuizickleService.Controllers
 
         // GET: api/Questions
         [HttpGet]
-        public IEnumerable<Question> GetQuestions()
+        public async Task<ActionResult<IEnumerable<Question>>> GetQuestion()
         {
-            return _context.Questions.OrderByDescending(p => p.QuestionId);
-        }
-
-        // GET: api/Questions/GetQuestionsByQuizId/{quizId}
-        //https://github.com/MGIngham/Quizickle.git
-        [Route("[action]/{quizId}")]
-        [HttpGet]
-        public IEnumerable<Question> GetQuestionsByQuizId(int quizId)
-        {
-            Console.WriteLine(quizId);
-            var res = _context.Questions.Where(p => p.QuizId == quizId);
-            return res;
-            //return _context.Questions.OrderByDescending(p => p.QuestionId);
+            return await _context.Question.ToListAsync();
         }
 
         // GET: api/Questions/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Getquestion([FromRoute] int id)
+        public async Task<ActionResult<Question>> GetQuestion(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var question = await _context.Questions.FindAsync(id);
+            var question = await _context.Question.FindAsync(id);
 
             if (question == null)
             {
                 return NotFound();
             }
 
-            return Ok(question);
+            return question;
         }
 
         // PUT: api/Questions/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> Putquestion([FromRoute] int id, [FromBody] Question question)
+        public async Task<IActionResult> PutQuestion(int id, Question question)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != question.QuestionId)
+            if (id != question.Id)
             {
                 return BadRequest();
             }
@@ -81,11 +60,11 @@ namespace QuizickleService.Controllers
             try
             {
                 _repo.Update(question);
-                var save = await _repo.SaveAsync(question);
+                await _repo.SaveAsync(question);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!questionExists(id))
+                if (!QuestionExists(id))
                 {
                     return NotFound();
                 }
@@ -99,30 +78,22 @@ namespace QuizickleService.Controllers
         }
 
         // POST: api/Questions
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<IActionResult> Postquestion([FromBody] Question question)
+        public async Task<ActionResult<Question>> PostQuestion(Question question)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             _repo.Add(question);
             var save = await _repo.SaveAsync(question);
 
-            return CreatedAtAction("Getquestion", new { id = question.QuestionId }, question);
+            return CreatedAtAction("GetQuestion", new { id = question.Id }, question);
         }
 
         // DELETE: api/Questions/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Deletequestion([FromRoute] int id)
+        public async Task<ActionResult<Question>> DeleteQuestion(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var question = await _context.Questions.FindAsync(id);
+            var question = await _context.Question.FindAsync(id);
             if (question == null)
             {
                 return NotFound();
@@ -131,12 +102,12 @@ namespace QuizickleService.Controllers
             _repo.Delete(question);
             var save = await _repo.SaveAsync(question);
 
-            return Ok(question);
+            return question;
         }
 
-        private bool questionExists(int id)
+        private bool QuestionExists(int id)
         {
-            return _context.Questions.Any(e => e.QuestionId == id);
+            return _context.Question.Any(e => e.Id == id);
         }
     }
 }

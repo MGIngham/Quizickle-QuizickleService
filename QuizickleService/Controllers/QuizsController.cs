@@ -14,10 +14,10 @@ namespace QuizickleService.Controllers
     [ApiController]
     public class QuizsController : ControllerBase
     {
-        private readonly QuizickleServiceContext _context;
+        private readonly QuizickleContext _context;
         private readonly IDataRepository<Quiz> _repo;
 
-        public QuizsController(QuizickleServiceContext context, IDataRepository<Quiz> repo)
+        public QuizsController(QuizickleContext context, IDataRepository<Quiz> repo)
         {
             _context = context;
             _repo = repo;
@@ -45,17 +45,12 @@ namespace QuizickleService.Controllers
         }
 
         // PUT: api/Quizs/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> Putquiz([FromRoute] int id, [FromBody] Quiz quiz)
+        public async Task<IActionResult> PutQuiz(int id, Quiz quiz)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != quiz.QuizId)
+            if (id != quiz.Id)
             {
                 return BadRequest();
             }
@@ -69,7 +64,7 @@ namespace QuizickleService.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!quizExists(id))
+                if (!QuizExists(id))
                 {
                     return NotFound();
                 }
@@ -82,9 +77,11 @@ namespace QuizickleService.Controllers
             return NoContent();
         }
 
-        // POST: api/Questions
+        // POST: api/Quizs
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<IActionResult> Postquiz([FromBody] Quiz quiz)
+        public async Task<ActionResult<Quiz>> PostQuiz(Quiz quiz)
         {
             if (!ModelState.IsValid)
             {
@@ -94,12 +91,12 @@ namespace QuizickleService.Controllers
             _repo.Add(quiz);
             var save = await _repo.SaveAsync(quiz);
 
-            return CreatedAtAction("Getquestion", new { id = quiz.QuizId }, quiz);
+            return CreatedAtAction("GetQuiz", new { id = quiz.Id }, quiz);
         }
 
-        // DELETE: api/Questions/5
+        // DELETE: api/Quizs/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Deletequiz([FromRoute] int id)
+        public async Task<ActionResult<Quiz>> DeleteQuiz(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -118,9 +115,9 @@ namespace QuizickleService.Controllers
             return Ok(quiz);
         }
 
-        private bool quizExists(int id)
+        private bool QuizExists(int id)
         {
-            return _context.Questions.Any(e => e.QuestionId == id);
+            return _context.Quiz.Any(e => e.Id == id);
         }
     }
 }
