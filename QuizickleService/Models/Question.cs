@@ -16,6 +16,8 @@ namespace QuizickleService.Models
         [Required]
         public int QuestionNumber { get; set; }
         [Required]
+        public int RoundNumber { get; set; }
+        [Required]
         public int QuestionType { get; set; }
         [Required]
         public string QuestionText { get; set; }
