@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizickleService.Data;
 
 namespace QuizickleService.Migrations
 {
     [DbContext(typeof(QuizickleContext))]
-    partial class QuizickleContextModelSnapshot : ModelSnapshot
+    [Migration("20201106214633_AddQuestionModel")]
+    partial class AddQuestionModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

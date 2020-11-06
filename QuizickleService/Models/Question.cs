@@ -14,14 +14,11 @@ namespace QuizickleService.Models
         public int QuizId { get; set; }
         public Quiz Quiz { get; set; }
         [Required]
-        public int QuestionNumber { get; set; }
-        [Required]
         public int RoundNumber { get; set; }
         [Required]
         public int QuestionType { get; set; }
         [Required]
         public string QuestionText { get; set; }
-        [Required]
         public bool IsTrueFalse { get; set; }
         public string AnswerText { get; set; }
         public string OptionOne { get; set; }
