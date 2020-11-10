@@ -30,6 +30,16 @@ namespace QuizickleService.Controllers
             return await _context.Question.ToListAsync();
         }
 
+        // GET: api/Questions/Quiz/5
+        [Route("Quiz/{id}")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Question>>> GetQuestionsByQuizId(int id)
+        {
+            var question = await _context.Question.Where(q => q.QuizId == id).ToListAsync();
+
+            return question;
+        }
+
         // GET: api/Questions/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Question>> GetQuestion(int id)
