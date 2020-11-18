@@ -35,8 +35,9 @@ namespace QuizickleService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Question>>> GetQuestionsByQuizId(int id)
         {
-            var question = await _context.Question.Where(q => q.QuizId == id).ToListAsync();
-
+            var question = await _context.Question.Where(q => q.QuizId == id)
+                                                  .OrderBy(r => r.RoundNumber).ToListAsync();
+                                                  
             return question;
         }
 
